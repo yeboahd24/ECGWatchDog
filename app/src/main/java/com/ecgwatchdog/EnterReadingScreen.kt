@@ -34,10 +34,10 @@ fun EnterReadingScreen(viewModel: ECGViewModel) {
                     style = MaterialTheme.typography.headlineSmall
                 )
                 
-                if (uiState.lastReading != null) {
+                uiState.lastReading?.let { lastReading ->
                     val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
                     Text(
-                        text = "Last reading: ${uiState.lastReading.readingKwh} kWh on ${dateFormat.format(Date(uiState.lastReading.timestamp))}",
+                        text = "Last reading: ${lastReading.readingKwh} kWh on ${dateFormat.format(Date(lastReading.timestamp))}",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -113,7 +113,9 @@ fun EnterReadingScreen(viewModel: ECGViewModel) {
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text("Daily Usage: ${uiState.dailyUsage} kWh")
-                    Text("Estimated Cost: ${CostCalculator.formatCurrency(uiState.costBreakdown.total)}")
+                    uiState.costBreakdown?.let { costBreakdown ->
+                        Text("Estimated Cost: ${CostCalculator.formatCurrency(costBreakdown.total)}")
+                    }
                     Text("Category: ${uiState.usageCategory}")
                 }
             }
